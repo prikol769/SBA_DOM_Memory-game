@@ -1,0 +1,49 @@
+div {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-game-container {
+  margin: -80px 0 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.start-btn {
+  background-color: #04aa6d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.start-btn:hover {
+  background-color: #036944;
+}
+
+.start-btn:disabled {
+  background-color: #d5e4de;
+  cursor: not-allowed;
+}
+
+#countdown {
+  font-size: 50px;
+  min-height: 60px;
+  color: #04aa6d;
+  font-weight: 600;
+}
