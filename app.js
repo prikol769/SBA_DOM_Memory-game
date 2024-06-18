@@ -1,52 +1,61 @@
-const arrayCardsContent = [
-  "♥",
+const arrayFullCardsContent = [
   "★",
-  "❦",
-  "🜲",
-  "🕸",
-  "♠",
-  "✿",
-  "☾",
-  "♥",
   "★",
-  "❦",
-  "🜲",
-  "🕸",
-  "♠",
-  "✿",
   "☾",
+  "☾",
+  "♊︎",
+  "♊︎",
+  "♠",
+  "♠",
+  "♥",
+  "♥",
+  "⚘",
+  "⚘",
+  "✿",
+  "✿",
+  "❦",
+  "❦",
+  "𓃠",
+  "𓃠",
+  "𓃥",
+  "𓃥",
+  "𓃭",
+  "𓃭",
+  "𓆝",
+  "𓆝",
+  "𝄞",
+  "𝄞",
+  "🕸",
+  "🕸",
+  "🗡",
+  "🗡",
+  "🜲",
+  "🜲",
 ];
-
-// "𓆝",
-// "🗡",
-// "𓃠",
-// "𓃥",
-// "𝄞",
-// "⚘",
-// "♊︎",
-// "𓃭",
-// "♥",
-// "★",
-// "❦",
-// "🜲",
-// "🕸",
-// "♠",
-// "✿",
-// "☾",
 
 let cardsChosen = [];
 let cardOneName = "";
 let cardTwoName = "";
 let countdownSec = 3;
 let score = 0;
+let arrayCardsContent;
 
 const form = document.querySelector("form");
 const inputName = form.elements["name"];
+const inputNumberOfCardPairs = form.elements["numberOfCardPairs"];
+
+let numberOfCardPairs = 8;
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
-  console.log(inputName.value);
+
+  numberOfCardPairs = inputNumberOfCardPairs.value;
+  arrayCardsContent = arrayFullCardsContent.slice(0, numberOfCardPairs * 2);
+
+  deleteAllContent();
+  content.style.pointerEvents = "none";
+  createBoardHandler();
 });
 
 const scoreEl = document.getElementById("score");
@@ -55,12 +64,14 @@ scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
 const content = document.getElementById("content");
 
 content.style.display = "grid";
-content.style.gridTemplateColumns = "150px 150px 150px 150px";
+content.style.gridTemplateColumns = `repeat(4, 150px)`;
+content.style.gridTemplateRows = "repeat(4, 150px)";
 content.style.gap = "16px";
 content.style.justifyContent = "center";
 
 const createBoardHandler = () => {
   arrayCardsContent.sort(() => 0.5 - Math.random());
+  content.style.gridTemplateColumns = `repeat(${numberOfCardPairs / 2}, 150px)`;
 
   for (let i = 0; i < arrayCardsContent.length; i++) {
     const card = document.createElement("div");
@@ -122,13 +133,16 @@ const createBoardHandler = () => {
   }
 };
 
-const btnStart = document.getElementById("start-btn");
-
-const handleStartGame = () => {
+const deleteAllContent = () => {
   while (content.hasChildNodes()) {
     content.removeChild(content.firstChild);
   }
+};
 
+const btnStart = document.getElementById("start-btn");
+
+const handleStartGame = () => {
+  deleteAllContent();
   createBoardHandler();
 
   cardsChosen = [];
