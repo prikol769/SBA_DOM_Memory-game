@@ -12,7 +12,7 @@ div {
 }
 
 .start-game-container {
-  margin: -80px 0 24px;
+  margin: -150px 0 24px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,5 +45,13 @@ div {
   font-size: 50px;
   min-height: 60px;
   color: #04aa6d;
+  font-weight: 600;
+}
+
+.score-description {
+  font-size: 24px;
+}
+
+.score-description span {
   font-weight: 600;
 }

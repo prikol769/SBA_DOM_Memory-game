@@ -38,6 +38,10 @@ let cardsChosen = [];
 let cardOneName = "";
 let cardTwoName = "";
 let countdownSec = 3;
+let score = 0;
+
+const scoreEl = document.getElementById("score");
+scoreEl.textContent = `Score: ${score}`;
 
 const content = document.getElementById("content");
 
@@ -83,6 +87,7 @@ const createBoardHandler = () => {
         cardTwoName = currentCardName;
         if (cardOneName === cardTwoName) {
           cardsChosen.push(cardOneName, cardTwoName);
+          score += 10;
         } else {
           const arrCardOneName = document.getElementsByName(cardOneName);
           const arrCardTwoName = document.getElementsByName(cardTwoName);
@@ -95,11 +100,14 @@ const createBoardHandler = () => {
             arrCardTwoName[0].style.color = "rgb(255, 255, 255)";
             arrCardTwoName[1].style.color = "rgb(255, 255, 255)";
           }, 300);
+          score -= 5;
         }
 
         cardOneName = "";
         cardTwoName = "";
       }
+      scoreEl.textContent = `Score: ${score}`;
+      scoreEl.style.color = score >= 0 ? "green" : "red";
     });
     content.appendChild(card);
   }
