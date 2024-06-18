@@ -40,8 +40,17 @@ let cardTwoName = "";
 let countdownSec = 3;
 let score = 0;
 
+const form = document.querySelector("form");
+const inputName = form.elements["name"];
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
+  console.log(inputName.value);
+});
+
 const scoreEl = document.getElementById("score");
-scoreEl.textContent = `Score: ${score}`;
+scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
 
 const content = document.getElementById("content");
 
@@ -106,7 +115,7 @@ const createBoardHandler = () => {
         cardOneName = "";
         cardTwoName = "";
       }
-      scoreEl.textContent = `Score: ${score}`;
+      scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
       scoreEl.style.color = score >= 0 ? "green" : "red";
     });
     content.appendChild(card);
