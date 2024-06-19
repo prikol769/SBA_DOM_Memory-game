@@ -4,12 +4,6 @@
   margin: 0;
 }
 
-div {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-
 .main {
   display: flex;
   justify-content: space-around;
@@ -27,6 +21,11 @@ div {
 
 #content {
   min-height: 650px;
+}
+#content > div {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 #score {
