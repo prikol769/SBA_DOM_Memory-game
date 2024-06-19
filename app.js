@@ -67,6 +67,13 @@ const createArrAndShuffleCards = () => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+
+  const nameVal = validateName();
+
+  if (nameVal === false) {
+    return false;
+  }
+
   score = 0;
   changeUiScore();
 
@@ -82,6 +89,14 @@ form.addEventListener("submit", (e) => {
   content.style.pointerEvents = "none";
   createBoardHandler();
 });
+
+const validateName = () => {
+  let nameValue = inputName.value;
+  if (nameValue == "") {
+    alert("Name cannot be empty");
+    return false;
+  }
+};
 
 const createBoardHandler = () => {
   //create grid columns of cards depending on numberOfCardPairs
