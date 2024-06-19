@@ -33,6 +33,8 @@ const arrayFullCardsContent = [
   "🜲",
 ];
 
+const jsConfetti = new JSConfetti();
+
 let cardsChosen = [];
 let cardOneName = "";
 let cardTwoName = "";
@@ -46,20 +48,26 @@ const inputNumberOfCardPairs = form.elements["numberOfCardPairs"];
 
 let numberOfCardPairs = 8;
 
+const changeUiScore = () => {
+  scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
+};
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
+  changeUiScore();
 
   numberOfCardPairs = inputNumberOfCardPairs.value;
+  //creating array pairs of cards, based on user input numberOfCardPairs
   arrayCardsContent = arrayFullCardsContent.slice(0, numberOfCardPairs * 2);
 
   deleteAllContent();
+  //blocking user click on cards
   content.style.pointerEvents = "none";
   createBoardHandler();
 });
 
-const scoreEl = document.getElementById("score");
-scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
+const scoreEl = document.querySelector("#score");
+changeUiScore();
 
 const content = document.getElementById("content");
 
@@ -70,7 +78,10 @@ content.style.gap = "16px";
 content.style.justifyContent = "center";
 
 const createBoardHandler = () => {
+  //shuffle the cards
   arrayCardsContent.sort(() => 0.5 - Math.random());
+
+  //create grid columns of cards depending on numberOfCardPairs
   content.style.gridTemplateColumns = `repeat(${numberOfCardPairs / 2}, 150px)`;
 
   for (let i = 0; i < arrayCardsContent.length; i++) {
@@ -94,26 +105,31 @@ const createBoardHandler = () => {
     card.addEventListener("click", (e) => {
       const currentCardName = e.target.getAttribute("name");
 
+      //if a pair of cards has already been turned over, return
       if (cardsChosen.find((cardName) => cardName === currentCardName)) {
         return;
       }
 
+      //if the card text color is white, it means the card is not open
       const isNotOpenCard = e.target.style.color === "rgb(255, 255, 255)";
       e.target.style.color = "#000";
 
+      //if this is the first card we turned over and it's not the open card
       if (!cardOneName && isNotOpenCard) {
         cardOneName = currentCardName;
+        //if this is the second card we turned over and it's not the open card
       } else if (cardOneName && isNotOpenCard) {
         cardTwoName = currentCardName;
+        //if the cards match
         if (cardOneName === cardTwoName) {
           cardsChosen.push(cardOneName, cardTwoName);
           score += 10;
+          //if the cards don't match
         } else {
           const arrCardOneName = document.getElementsByName(cardOneName);
           const arrCardTwoName = document.getElementsByName(cardTwoName);
 
-          console.log("arrCardTwoName", arrCardTwoName);
-
+          //cover the cards by painting them white
           setTimeout(() => {
             arrCardOneName[0].style.color = "rgb(255, 255, 255)";
             arrCardOneName[1].style.color = "rgb(255, 255, 255)";
@@ -126,13 +142,19 @@ const createBoardHandler = () => {
         cardOneName = "";
         cardTwoName = "";
       }
-      scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
+      changeUiScore();
       scoreEl.style.color = score >= 0 ? "green" : "red";
+
+      //if all cards are revealed add Confetti
+      if (cardsChosen.length === arrayCardsContent.length) {
+        jsConfetti.addConfetti();
+      }
     });
     content.appendChild(card);
   }
 };
 
+//clear our board
 const deleteAllContent = () => {
   while (content.hasChildNodes()) {
     content.removeChild(content.firstChild);
@@ -152,6 +174,9 @@ const handleStartGame = () => {
   countdownSec = 3;
   cardOneName = "";
   cardTwoName = "";
+  score = 0;
+
+  changeUiScore();
 
   btnStart.disabled = true;
 
@@ -167,6 +192,7 @@ const handleStartGame = () => {
     countdownSec -= 1;
   }, 900);
 
+  //While the countdown is going on, we show the cards and block them
   for (let i = 0; i < arrayCardsContent.length; i++) {
     content.children[i].style.color = "#000";
     content.style.pointerEvents = "none";
