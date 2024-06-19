@@ -169,6 +169,7 @@ const btnStart = document.getElementById("start-btn");
 const handleStartGame = () => {
   if (!arrayCardsContent) {
     alert("Please fill out and submit the form to start the game");
+    return;
   }
   createArrAndShuffleCards();
   deleteAllContent();
