@@ -47,27 +47,17 @@ const inputName = form.elements["name"];
 const inputNumberOfCardPairs = form.elements["numberOfCardPairs"];
 
 let numberOfCardPairs = 8;
+let maxScore = 80;
 
 const changeUiScore = () => {
   scoreEl.textContent = `${inputName.value} Score:${"\u00A0"}${score}`;
 };
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  changeUiScore();
-
-  numberOfCardPairs = inputNumberOfCardPairs.value;
-  //creating array pairs of cards, based on user input numberOfCardPairs
-  arrayCardsContent = arrayFullCardsContent.slice(0, numberOfCardPairs * 2);
-
-  deleteAllContent();
-  //blocking user click on cards
-  content.style.pointerEvents = "none";
-  createBoardHandler();
-});
-
 const scoreEl = document.querySelector("#score");
 changeUiScore();
+
+const maxScoreEl = document.querySelector("#maxScore");
+maxScoreEl.textContent = `Max Score:${"\u00A0"}${maxScore}`;
 
 const content = document.getElementById("content");
 
@@ -76,6 +66,24 @@ content.style.gridTemplateColumns = `repeat(4, 150px)`;
 content.style.gridTemplateRows = "repeat(4, 150px)";
 content.style.gap = "16px";
 content.style.justifyContent = "center";
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  score = 0;
+  changeUiScore();
+
+  numberOfCardPairs = inputNumberOfCardPairs.value;
+
+  maxScore = numberOfCardPairs * 10;
+  maxScoreEl.textContent = `Max Score:${"\u00A0"}${maxScore}`;
+  //creating array pairs of cards, based on user input numberOfCardPairs
+  arrayCardsContent = arrayFullCardsContent.slice(0, numberOfCardPairs * 2);
+
+  deleteAllContent();
+  //blocking user click on cards
+  content.style.pointerEvents = "none";
+  createBoardHandler();
+});
 
 const createBoardHandler = () => {
   //shuffle the cards
