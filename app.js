@@ -26,6 +26,9 @@ let countdownSec = 3;
 let score = 0;
 let arrayCardsContent;
 
+const lang = document.getElementById("lang");
+lang.innerHTML = `Language is: ${window.navigator.language}`;
+
 const form = document.querySelector("form");
 const inputName = form.elements["name"];
 const inputNumberOfCardPairs = form.elements["numberOfCardPairs"];
@@ -93,7 +96,7 @@ form.addEventListener("submit", (e) => {
 const validateName = () => {
   let nameValue = inputName.value;
   if (nameValue == "") {
-    alert("Name cannot be empty");
+    window.alert("Name cannot be empty");
     return false;
   }
 };
