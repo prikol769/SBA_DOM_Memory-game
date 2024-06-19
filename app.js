@@ -110,6 +110,9 @@ const createBoardHandler = () => {
 
       //if a pair of cards has already been turned over, return
       if (cardsChosen.find((cardName) => cardName === currentCardName)) {
+        const cardsEls = document.getElementsByName(cardOneName);
+        cardsEls[0].style.color = "#000";
+        cardsEls[1].style.color = "#000";
         return;
       }
 
