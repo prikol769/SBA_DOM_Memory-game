@@ -1,35 +1,19 @@
 const arrayFullCardsContent = [
   "★",
-  "★",
-  "☾",
   "☾",
   "♊︎",
-  "♊︎",
-  "♠",
   "♠",
   "♥",
-  "♥",
-  "⚘",
   "⚘",
   "✿",
-  "✿",
-  "❦",
   "❦",
   "𓃠",
-  "𓃠",
-  "𓃥",
   "𓃥",
   "𓃭",
-  "𓃭",
-  "𓆝",
   "𓆝",
   "𝄞",
-  "𝄞",
-  "🕸",
   "🕸",
   "🗡",
-  "🗡",
-  "🜲",
   "🜲",
 ];
 
@@ -67,6 +51,20 @@ content.style.gridTemplateRows = "repeat(4, 150px)";
 content.style.gap = "16px";
 content.style.justifyContent = "center";
 
+const createArrAndShuffleCards = () => {
+  //shuffle the cards of arrayFullCardsContent
+  arrayFullCardsContent.sort(() => 0.5 - Math.random());
+
+  //creating array of unique cards, based on user input numberOfCardPairs
+  arrayCardsContent = arrayFullCardsContent.slice(0, numberOfCardPairs);
+
+  //add a second pair
+  arrayCardsContent.push(...arrayCardsContent);
+
+  //shuffle the cards of arrayCardsContent
+  arrayCardsContent.sort(() => 0.5 - Math.random());
+};
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   score = 0;
@@ -76,8 +74,8 @@ form.addEventListener("submit", (e) => {
 
   maxScore = numberOfCardPairs * 10;
   maxScoreEl.textContent = `Max Score:${"\u00A0"}${maxScore}`;
-  //creating array pairs of cards, based on user input numberOfCardPairs
-  arrayCardsContent = arrayFullCardsContent.slice(0, numberOfCardPairs * 2);
+
+  createArrAndShuffleCards();
 
   deleteAllContent();
   //blocking user click on cards
@@ -86,9 +84,6 @@ form.addEventListener("submit", (e) => {
 });
 
 const createBoardHandler = () => {
-  //shuffle the cards
-  arrayCardsContent.sort(() => 0.5 - Math.random());
-
   //create grid columns of cards depending on numberOfCardPairs
   content.style.gridTemplateColumns = `repeat(${numberOfCardPairs / 2}, 150px)`;
 
@@ -175,6 +170,7 @@ const handleStartGame = () => {
   if (!arrayCardsContent) {
     alert("Please fill out and submit the form to start the game");
   }
+  createArrAndShuffleCards();
   deleteAllContent();
   createBoardHandler();
 
